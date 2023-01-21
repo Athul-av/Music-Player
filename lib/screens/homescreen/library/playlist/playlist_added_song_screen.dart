@@ -8,18 +8,14 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class ListOfPlayList extends StatefulWidget {
-  const ListOfPlayList(
+class ListOfPlayList extends StatelessWidget {
+   ListOfPlayList(
       {super.key, required this.playlist, required this.findex});
   final MuzicModel playlist;
   final int findex;
 
-  @override
-  State<ListOfPlayList> createState() => _ListOfPlayListState();
-}
-
-class _ListOfPlayListState extends State<ListOfPlayList> {
   late List<SongModel> songPlaylist;
+
   @override
   Widget build(BuildContext context) {
     // PlaylistDb.getAllPlaylist();
@@ -47,7 +43,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
           ),
           elevation: 0,
           backgroundColor: Colors.black,
-          title: Text(widget.playlist.name,
+          title: Text(playlist.name,
           style: const TextStyle(
                     fontFamily: 'UbuntuCondensed',
                     color: Color.fromARGB(255, 15, 159, 167),
@@ -70,7 +66,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                     builder: (BuildContext context, Box<MuzicModel> music,
                         Widget? child) {
                       songPlaylist = listPlaylist(
-                          music.values.toList()[widget.findex].songId);
+                          music.values.toList()[findex].songId);
                       return songPlaylist.isEmpty
                           ?  const Padding(
                               padding:EdgeInsets.symmetric(
@@ -132,7 +128,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                                     children: [
                                       IconButton(
                                         onPressed: () {
-                                          widget.playlist.deleteData(
+                                          playlist.deleteData(
                                               songPlaylist[index].id);
                                         },
                                         icon: const Icon(
@@ -181,7 +177,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return SongListPage(playlist: widget.playlist);
+                  return SongListPage(playlist: playlist);
                 },
               ),
             );
@@ -192,8 +188,6 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
       ),
     );
   }
-
-
 
   List<SongModel> listPlaylist(List<int> data) {
     List<SongModel> plsongs = [];

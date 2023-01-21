@@ -6,25 +6,13 @@ import 'package:music_app/screens/homescreen/allsongs/allsongs.dart';
 import 'package:music_app/screens/homescreen/library/playlist/playlist_listview.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PlaylistScreen extends StatefulWidget {
-  const PlaylistScreen({
+class PlaylistScreen extends StatelessWidget {
+   PlaylistScreen({
     super.key,
   });
-
-  @override
-  State<PlaylistScreen> createState() => _PlaylistScreenState();
-}
-
  
 TextEditingController nameController = TextEditingController();
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-class _PlaylistScreenState extends State<PlaylistScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); 
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -199,7 +187,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   );
 } 
 
-
   Future<void> saveButtonPressed(context) async {
     final name = nameController.text.trim();
      final music = MuzicModel(name: name, songId: []);
@@ -232,4 +219,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
      Navigator.of(context).pop();  
     }
   }
-} 
+}
+
+

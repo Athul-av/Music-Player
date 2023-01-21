@@ -12,14 +12,14 @@ import 'package:music_app/screens/homescreen/library/playlist/playlist_create_sc
 import 'package:music_app/screens/homescreen/library/recently/recently_played.dart';
 import 'package:music_app/screens/miniplayer/mini_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigationScreen extends StatelessWidget {
-  BottomNavController bottomNavController = Get.put(BottomNavController());
   BottomNavigationScreen({super.key});
 
   int currentIndex = 2; 
 
-  List pages =const [ 
+  List <Widget>pages = [ 
     MostlyPlayed(),
     RecentlyPlayed(),
     HomeScreen(),
@@ -31,20 +31,17 @@ class BottomNavigationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
+    return Consumer<BottomNavController>(
+      builder: (context, value, child) {
+        
       
-      child: Scaffold(
+      return Scaffold(
         backgroundColor: Colors.transparent,
-        body: GetBuilder<BottomNavController>(
-          builder: (controller) => pages[bottomNavController.currentIndex],
-        ),
-        bottomNavigationBar: ValueListenableBuilder(
-          valueListenable: FavoriteDb.favoriteSongs,
-          builder:
-              (BuildContext context, List<SongModel> music, Widget? child) {
-            return SingleChildScrollView(
+        
+        
+        bottomNavigationBar:Padding(padding: EdgeInsets.all(6),
+        child :SingleChildScrollView(
+          physics: ScrollPhysics(),
               child: Column(
                 children: [
                   if (GetAllSongController.audioPlayer.currentIndex != null)
@@ -53,20 +50,18 @@ class BottomNavigationScreen extends StatelessWidget {
                         MiniPlayer(),
                         
                       ],
-                    ) 
-                  else
-                    const SizedBox(),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.086,
-                   
-                    child: ClipRRect(
-                     
-                      child: GetBuilder<BottomNavController>(
-                          builder: (controller) {
+                    ) ,
+                   Consumer<BottomNavController>(
+                          builder: (context,value,child) {
                         return  GNav(
                           backgroundColor: Color.fromARGB(255, 0, 0, 0), 
                           tabBackgroundColor: Color.fromARGB(255, 15, 159, 167),
-                          selectedIndex: 2, 
+                          selectedIndex: value.currentIndex, 
+                          onTabChange: (index) {
+                            currentIndex =index;
+                            value.currentIndex = currentIndex;
+
+                          },
                           padding: EdgeInsets.all(12),
                           activeColor: Colors.white, 
                           
@@ -87,7 +82,7 @@ class BottomNavigationScreen extends StatelessWidget {
                              fontFamily: 'UbuntuCondensed',
                                  color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 15, 
-                                fontWeight: FontWeight.w600   
+                                 fontWeight: FontWeight.w600   
                           ), ),
                           GButton(icon: Icons.headphones_outlined,  iconColor: Color.fromARGB(255, 15, 159, 167), iconSize: 27,
                          text:'All songs', 
@@ -114,22 +109,23 @@ class BottomNavigationScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w600   
                           ),), 
                         ],
- 
-                        onTabChange:(index) {
-                            currentIndex = index; 
-                            bottomNavController.currentIndex = index;
-                          },
                         
+                       
                         );
                       }),
-                    ),
+                    ]),
                   ),
-                ],
+                
               ),
+               body: pages[value.currentIndex],
             );
-          },
-        ),
-      ),
-    );
+    
+        
+       
+        
+      
+    
   }
+
+ ); }
 }

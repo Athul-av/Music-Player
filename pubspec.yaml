@@ -46,6 +46,7 @@ dependencies:
   marquee: ^2.2.3 
   on_audio_query: ^2.6.1
   permission_handler: ^10.2.0
+  provider: ^6.0.5
   share_plus: ^6.3.0
   stylish_bottom_bar: ^0.1.5
 

@@ -5,30 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/recent_db.dart';
+import 'package:music_app/providers/searchProvdr.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchScreen extends StatelessWidget { 
+  const SearchScreen({super.key}); 
 
-  @override
-  State<SearchScreen> createState() => _SearchScreenState();
-}
-
-late List<SongModel> allSong;
-List<SongModel> foundSongs = [];
-final audioPlayer = AudioPlayer();
-final audiQuery = OnAudioQuery();
-
-class _SearchScreenState extends State<SearchScreen> {
-  @override
-  void initState() {
-    super.initState();
-    songsLoading();
-  }
-
-  @override
+  @override 
   Widget build(BuildContext context) {
+    
+    Provider.of<SearchProvider>(context,listen: false).songsLoading();
     return Container(
       decoration:const BoxDecoration(
         gradient: LinearGradient(
@@ -58,21 +46,23 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(
                       height: 50,
                       width: 300,  
-                      child: CupertinoSearchTextField(
+                      child: Consumer<SearchProvider>(
+                        builder:(context, value, child) {
+                        return CupertinoSearchTextField(
                         borderRadius: BorderRadius.all(Radius.circular(25)),  
-                         style: const TextStyle(
-                    fontFamily: 'UbuntuCondensed',
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontSize: 18,
-                   
-                   ),
-                        prefixIcon: const 
-                               Icon(
-                                Icons.search,
-                              ), 
-                            backgroundColor: Colors.white, 
-                            
-                            onChanged: (value) => search(value),
+                        style: const TextStyle(
+                                          fontFamily: 'UbuntuCondensed',
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 18,             
+                                         ),
+                          prefixIcon: const 
+                                 Icon(
+                                  Icons.search,
+                                ), 
+                              backgroundColor: Colors.white,  
+                              onChanged: (keyword) => value.search(keyword),
+                        );
+                        }
                       ))
                     ],
                   ),
@@ -85,80 +75,85 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(15,2,15,2), 
                     child: SafeArea(
-                      child: Column(
-                        children: [
+                      child: Consumer<SearchProvider>(
+                        builder: (context, value, child) {
                           
-                          foundSongs.isNotEmpty
-                              ? ListView.separated(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                       tileColor: Color.fromARGB(255, 12, 12, 12), 
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      minVerticalPadding: 10.0,
-                                      contentPadding: const EdgeInsets.all(0),
-                                      leading: Padding(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        child: QueryArtworkWidget(
-                                          id: foundSongs[index].id,
-                                          type: ArtworkType.AUDIO,
-                                          nullArtworkWidget: const Padding(
-                                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                            child: Icon(Icons.music_note,color: Colors.white,size: 33,),
+                       
+                        return Column(
+                          children: [
+                            
+                                value.foundSongs.isNotEmpty
+                                ? ListView.separated(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                         tileColor: Color.fromARGB(255, 12, 12, 12), 
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        minVerticalPadding: 10.0,
+                                        contentPadding: const EdgeInsets.all(0),
+                                        leading: Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: QueryArtworkWidget(
+                                            id: value.foundSongs[index].id,
+                                            type: ArtworkType.AUDIO,
+                                            nullArtworkWidget: const Padding(
+                                              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                              child: Icon(Icons.music_note,color: Colors.white,size: 33,),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      title: Text(
-                                        foundSongs[index].title,
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                             fontFamily: 'UbuntuCondensed',
-                              color: Color.fromARGB(255, 255, 255, 255),
-                             fontSize: 18,  
-                             ), 
-                                      ),
-                                      subtitle: Text(
-                                        '${foundSongs[index].artist == "<unknown>" ? "Unknown Artist" : foundSongs[index].artist}',
-                                        maxLines: 1,
-                                         style: const TextStyle(
-                    fontFamily: 'UbuntuCondensed',
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 11,
-                   
-                   ),
-                                      ),
-                                      onTap: () {
-                                        GetAllSongController.audioPlayer.setAudioSource(
-                                            GetAllSongController.createSongList(
-                                              foundSongs,
-                                            ),
-                                            initialIndex: index); 
-                                        GetAllSongController.audioPlayer.play();
-                                        GetRecentSong.addRecentlyPlayed(
-                                            foundSongs[index].id); 
-                                        Navigator.push(context,  
-                                            MaterialPageRoute(builder: (context) {
-                                          return MusicPlayingScreen(
-                                            songModelList: foundSongs,
-                                          );
-                                        })); 
-                                      },
-                                    );
-                                  },
-                                  itemCount: foundSongs.length,
-                                  separatorBuilder: (context, index) {
-                                    return const Divider(
-                                      height: 10.0,
-                                    );
-                                  },
-                                )
-                              : const Center(
-                                  child:Text('No songs available',style: TextStyle(color: Colors.white),)),
-                        ],
-                      ),
+                                        title: Text(
+                                          value.foundSongs[index].title,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                               fontFamily: 'UbuntuCondensed',
+                                color: Color.fromARGB(255, 255, 255, 255),
+                               fontSize: 18,  
+                               ), 
+                                        ),
+                                        subtitle: Text(
+                                          '${value.foundSongs[index].artist == "<unknown>" ? "Unknown Artist" : value.foundSongs[index].artist}',
+                                          maxLines: 1,
+                                           style: const TextStyle(
+                                          fontFamily: 'UbuntuCondensed',
+                                          color: Color.fromARGB(255, 255, 255, 255),
+                                          fontSize: 11,
+                                         
+                                         ),
+                                        ),
+                                        onTap: () {
+                                          GetAllSongController.audioPlayer.setAudioSource(
+                                              GetAllSongController.createSongList(
+                                                value.foundSongs,
+                                              ),
+                                              initialIndex: index); 
+                                          GetAllSongController.audioPlayer.play();
+                                          GetRecentSong.addRecentlyPlayed(
+                                              value.foundSongs[index].id); 
+                                          Navigator.push(context,  
+                                              MaterialPageRoute(builder: (context) {
+                                            return MusicPlayingScreen(
+                                              songModelList: value.foundSongs,
+                                            );
+                                          })); 
+                                        },
+                                      );
+                                    },
+                                    itemCount: value.foundSongs.length,
+                                    separatorBuilder: (context, index) {
+                                      return const Divider(
+                                        height: 10.0,
+                                      );
+                                    },
+                                  )
+                                : const Center(
+                                    child:Text('No songs available',style: TextStyle(color: Colors.white),)),
+                          ],
+                        );
+  }),
                     ),
                   ),
                 ),
@@ -168,31 +163,5 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     ); 
-  }
-
-  void songsLoading() async {
-    allSong = await audiQuery.querySongs(
-      sortType: null,
-      orderType: OrderType.ASC_OR_SMALLER,
-      uriType: UriType.EXTERNAL,
-      ignoreCase: true,
-    );
-    foundSongs = allSong;
-  }
-
-  void search(String enteredKeyword) {
-    List<SongModel> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = allSong;
-    } else {
-      results = allSong
-          .where((element) => element.title 
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      foundSongs = results;
-    });
   }
 }

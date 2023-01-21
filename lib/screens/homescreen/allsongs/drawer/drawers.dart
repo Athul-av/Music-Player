@@ -4,7 +4,8 @@ import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/screens/homescreen/allsongs/drawer/drawerAboutUs.dart';
 import 'package:music_app/screens/homescreen/allsongs/drawer/drawerPrivacy.dart';
-import 'package:music_app/screens/homescreen/allsongs/drawer/shareApp.dart'; 
+import 'package:music_app/screens/homescreen/allsongs/drawer/shareApp.dart';
+import 'package:music_app/screens/miniplayer/mini_player.dart'; 
 
 
 class HomescreenDrawers extends StatelessWidget {
@@ -125,6 +126,7 @@ class HomescreenDrawers extends StatelessWidget {
                             onPressed: () {
                              PlaylistDb.resetAPP(context);
                            GetAllSongController.audioPlayer.stop(); 
+                           
                             },
                             child: const Text('Yes', style: TextStyle(
                     fontFamily: 'UbuntuCondensed',

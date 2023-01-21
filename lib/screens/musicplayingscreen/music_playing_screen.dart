@@ -5,81 +5,60 @@ import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/db/functions/mostlyplayed.dart';
 import 'package:music_app/db/functions/recent_db.dart';
+import 'package:music_app/providers/NowPlayingProvdr.dart';
 import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
 import 'package:music_app/screens/homescreen/allsongs/playlistscreen.dart';
+import 'package:music_app/screens/miniplayer/mini_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
-class MusicPlayingScreen extends StatefulWidget {
-  const MusicPlayingScreen({
+class MusicPlayingScreen extends StatelessWidget {
+   MusicPlayingScreen({
     super.key,
     required this.songModelList,
   });
   final List<SongModel> songModelList;
-  @override
-  State<MusicPlayingScreen> createState() => _MusicPlayingScreenState();
-}
-
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-TextEditingController playlistController = TextEditingController();
-
-class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
-  Duration _duration = const Duration();
-  Duration _position = const Duration();
-
   bool _isShuffle = false; 
-  int currentIndex = 0;
-  int counter = 0;
-
-  @override
-  void initState() {
-    GetAllSongController.audioPlayer.currentIndexStream.listen((index) {
-      if (index != null) {
-        setState(() {
-          currentIndex = index;
-        });
-        GetAllSongController.currentIndexes = index;
-      }
-    });
-    super.initState();
-    playSong();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: (()async {
-        FavoriteDb.favoriteSongs.notifyListeners();
-        return true; 
-      }),
-      child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 0, 0, 0), 
-                    Color.fromARGB(255, 0, 0, 0)
-            ],
-          ),
+    final nowplayprovdr = Provider.of<NowPlayingProvider>(context,listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<NowPlayingProvider>(context,listen: false).indexchange();
+    },);
+    Provider.of<NowPlayingProvider>(context,listen: false).playSong();
+    return Container( 
+      height: double.infinity,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color.fromARGB(255, 0, 0, 0), 
+                  Color.fromARGB(255, 0, 0, 0)
+          ],
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Consumer<NowPlayingProvider>(
+              builder: (context, value, child) {
+               return SingleChildScrollView(
                 child: Column(
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
                       child: IconButton(
                         onPressed: () {
-                          setState(() {});
-                          Navigator.of(context).pop(); 
+                         
+                          Navigator.of(context).pop();
+
                           FavoriteDb.favoriteSongs.notifyListeners();
-    
+                
                         },
                         icon: const Icon(Icons.keyboard_arrow_down),
                         color: Colors.white,
@@ -90,7 +69,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                       child: SizedBox(  
                           width: MediaQuery.of(context).size.height * 0.32, 
                           height: MediaQuery.of(context).size.width* 0.55,  
-                          child: QueryArtworkWidget(id: widget.songModelList[currentIndex].id,
+                          child: QueryArtworkWidget(id: songModelList[nowplayprovdr.currentIndex].id,
                           
                           type: ArtworkType.AUDIO,
                           keepOldArtwork: true,
@@ -107,7 +86,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                          Padding(
                       padding: const EdgeInsets.only(left:20 ,right: 12), 
                       child: Text(
-                        widget.songModelList[currentIndex].displayNameWOExt,
+                        songModelList[nowplayprovdr.currentIndex].displayNameWOExt,
                         overflow: TextOverflow.ellipsis,
                          style: const TextStyle(
                     fontFamily: 'UbuntuCondensed',
@@ -121,8 +100,8 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                           height: 13,
                         ),
                          Text(
-                      widget.songModelList[currentIndex].artist.toString() == "<unknown>"
-                          ? "Unknown artist" : widget.songModelList[currentIndex].artist.toString(),
+                      songModelList[nowplayprovdr.currentIndex].artist.toString() == "<unknown>"
+                          ? "Unknown artist" : songModelList[nowplayprovdr.currentIndex].artist.toString(),
                       overflow: TextOverflow.ellipsis,
                       style:const TextStyle(fontSize: 12, color: Colors.white),
                     ),
@@ -191,21 +170,21 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                           IconButton(
                             onPressed: () { 
                             Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context)=> PlaylistScreenFromallsong(findex: currentIndex,)));
+                            builder: (context)=> PlaylistScreenFromallsong(findex:nowplayprovdr. currentIndex,)));
                             },
                             icon:const Icon(Icons.playlist_add), 
                             color: Colors.white,
                           ),
                            FavButMusicPlaying(
                           songFavoriteMusicPlaying:
-                         widget.songModelList[currentIndex]),
+                         songModelList[nowplayprovdr.currentIndex]),
                         ],
                       ), 
                       SizedBox(height: MediaQuery.of(context).size.height*0.075,),   
                         Row(
                           children: [
                             Text(
-                              _position.toString().substring(2, 7),
+                              nowplayprovdr.position.toString().substring(2, 7),
                               style: const TextStyle(color: Colors.white),
                             ),
                             Expanded(
@@ -214,25 +193,25 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                   activeTrackColor: Color.fromARGB(255, 15, 159, 167),
                                   thumbShape:const RoundSliderThumbShape( enabledThumbRadius: 8.0),
                                   overlayShape:const RoundSliderOverlayShape(overlayRadius: 2.0),           
-                                  trackHeight:3 
+                                  trackHeight:3
                                 ),
                                 child: Slider( 
-                                  value: _position.inSeconds.toDouble(),
+                                  value: nowplayprovdr.position.inSeconds.toDouble(),
                                   onChanged: ((double value) {
-                                    setState(() {
-                                      changeToSeconds(value.toInt());
+                                   
+                                 Provider.of<NowPlayingProvider>(context,listen: false).changeToSeconds(value.toInt());
                                       value = value;
-                                    });
+                              
                                   }),
                                   min: 0.0,
-                                  max: _duration.inSeconds.toDouble(),
+                                  max: nowplayprovdr.duration.inSeconds.toDouble(),
                                   inactiveColor: Colors.white.withOpacity(0.5),  
                                   activeColor: const Color.fromARGB(255, 15, 159, 167), 
                                 ),
                               ),
                             ),
                             Text(
-                              _duration.toString().substring(2, 7),
+                              nowplayprovdr.duration.toString().substring(2, 7),
                               style: const TextStyle(color: Colors.white),
                             ),
                           ],
@@ -242,7 +221,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    
+                
                           children: [ 
                             
                             IconButton(
@@ -251,11 +230,11 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                       .audioPlayer.hasPrevious) {
                                     // add to recent
                                      GetRecentSong.addRecentlyPlayed(
-                                      widget.songModelList[currentIndex-1].id); 
-
+                                      songModelList[nowplayprovdr.currentIndex-1].id); 
+            
                                     //add to mostly
                                       GetMostlyPlayed.addmostlyPlayed(    
-                                        widget.songModelList[currentIndex-1].id);       
+                                        songModelList[nowplayprovdr.currentIndex-1].id);       
                                         
                                     await GetAllSongController.audioPlayer
                                         .seekToPrevious();
@@ -269,14 +248,14 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                   size: 38,
                                   color: Colors.white,
                                 )),
-                          //        IconButton(onPressed: (){
-                          //     if(GetAllSongController.audioPlayer.position.inSeconds>10){ 
-                          //  GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.position.inSeconds -10));   
-                          //     } else{
-                          //      GetAllSongController.audioPlayer .seek(Duration(seconds: 0)); 
-                          //     }   
-                          //   }, 
-                          //   icon:const Icon(Icons.replay_10,color: Colors.white,)), 
+                                 IconButton(onPressed: (){
+                              if(GetAllSongController.audioPlayer.position.inSeconds>10){ 
+                           GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.position.inSeconds -10));   
+                              } else{
+                               GetAllSongController.audioPlayer .seek(Duration(seconds: 0)); 
+                              }   
+                            }, 
+                            icon:const Icon(Icons.replay_10,color: Colors.white,)),  
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Color.fromARGB(255, 0, 0, 0), 
@@ -287,7 +266,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                   await GetAllSongController.audioPlayer.pause();
                                 } else {
                                   await GetAllSongController.audioPlayer.play();
-                                  setState(() {}); 
+                                   
                                 }  
                               },
                               child: StreamBuilder<bool>(
@@ -317,22 +296,22 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 },
                               ),
                             ),
-                            //  IconButton(onPressed: (){
-                            //  if (GetAllSongController.audioPlayer.position.inSeconds+10 > GetAllSongController.audioPlayer.duration!.inSeconds){
-                            //  GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.duration!.inSeconds ));
-                            //   }else{ 
-                            //     GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.position.inSeconds +10)); 
-                            //   }   
-                            // }, icon:const Icon(Icons.forward_10,color: Colors.white,)),
+                             IconButton(onPressed: (){
+                             if (GetAllSongController.audioPlayer.position.inSeconds+10 > GetAllSongController.audioPlayer.duration!.inSeconds){
+                             GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.duration!.inSeconds ));
+                              }else{ 
+                                GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.position.inSeconds +10)); 
+                              }   
+                            }, icon:const Icon(Icons.forward_10,color: Colors.white,)),
                             IconButton(
                                 onPressed: () async {
                                   if (GetAllSongController.audioPlayer.hasNext) {
                                      //add recent
                                     GetRecentSong.addRecentlyPlayed(
-                                      widget.songModelList[currentIndex+1].id); 
+                                      songModelList[Provider.of<NowPlayingProvider>(context,listen: false).currentIndex+1].id); 
                                       // add mostly
                                       GetMostlyPlayed.addmostlyPlayed(    
-                                        widget.songModelList[currentIndex+1].id);     
+                                        songModelList[Provider.of<NowPlayingProvider>(context,listen: false).currentIndex+1].id);     
                                     await GetAllSongController.audioPlayer
                                         .seekToNext();
                                     await GetAllSongController.audioPlayer.play();
@@ -353,28 +332,16 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                     ),
                   ],
                 ),
-              ),
+              );
+              },
+         
             ),
           ),
         ),
       ),
     );
   }
-  void changeToSeconds(int seconds) {
-    Duration duration = Duration(seconds: seconds);
-    GetAllSongController.audioPlayer.seek(duration);
-  }
-
-  void playSong() {
-    GetAllSongController.audioPlayer.durationStream.listen((eventd) {
-      setState(() {
-        _duration = eventd!;
-      });
-    });
-    GetAllSongController.audioPlayer.positionStream.listen((eventp) {
-      setState(() {
-        _position = eventp;
-      });
-    });
-  }
 }
+
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+TextEditingController playlistController = TextEditingController();

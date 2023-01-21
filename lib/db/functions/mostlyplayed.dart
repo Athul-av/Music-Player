@@ -26,7 +26,6 @@ class GetMostlyPlayed {
     //   for (int j = 0; j < startSong.length; j++) {
     //     if (MostlyPlayedSongItems[i] == startSong[j].id) {
     //       mostlyPlayedNotifier.value.add(startSong[j]); 
-   
     //     }
     //   }
     // }
@@ -36,12 +35,13 @@ class GetMostlyPlayed {
         count++;
       }
     }
-    if(count>=4){  
+    if(count>2){  
         for(int k=0; k< startSong.length ; k++){
           if(MostlyPlayedSongItems[i]==startSong[k].id){
             mostlyPlayedNotifier.value.add(startSong[k]); 
           }
         }
+        count=0; 
       } 
    } 
   } 

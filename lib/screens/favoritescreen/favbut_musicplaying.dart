@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class FavButMusicPlaying extends StatefulWidget {
+class FavButMusicPlaying extends StatelessWidget {
   const FavButMusicPlaying({super.key, required this.songFavoriteMusicPlaying});
   final SongModel songFavoriteMusicPlaying;
 
 
-  @override
-  State<FavButMusicPlaying> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<FavButMusicPlaying> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -19,8 +14,8 @@ class _FavoriteButtonState extends State<FavButMusicPlaying> {
         builder: (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
           return IconButton(
             onPressed: () {
-              if (FavoriteDb.isFavor(widget.songFavoriteMusicPlaying)) {
-                FavoriteDb.delete(widget.songFavoriteMusicPlaying.id);
+              if (FavoriteDb.isFavor(songFavoriteMusicPlaying)) {
+                FavoriteDb.delete(songFavoriteMusicPlaying.id);
                 const snackBar = SnackBar(
                   backgroundColor: Colors.black, 
                   content: Text(
@@ -31,7 +26,7 @@ class _FavoriteButtonState extends State<FavButMusicPlaying> {
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
-                FavoriteDb.add(widget.songFavoriteMusicPlaying);
+                FavoriteDb.add(songFavoriteMusicPlaying);
                 const snackbar = SnackBar(
                   backgroundColor: Colors.black,
                   content: Text(
@@ -45,7 +40,7 @@ class _FavoriteButtonState extends State<FavButMusicPlaying> {
 
               FavoriteDb.favoriteSongs.notifyListeners();
             },
-            icon: FavoriteDb.isFavor(widget.songFavoriteMusicPlaying)
+            icon: FavoriteDb.isFavor(songFavoriteMusicPlaying)
                 ? Icon(
                     Icons.favorite,
                     color: Colors.red[600],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
+import 'package:music_app/providers/playlistProvider/playlistAddprovdr.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SongListPage extends StatefulWidget {
   const SongListPage({super.key, required this.playlist});
@@ -13,7 +15,7 @@ class SongListPage extends StatefulWidget {
 }
 
 class _SongListPageState extends State<SongListPage> {
-  bool isPlaying = true;
+ 
   final OnAudioQuery audioQuery = OnAudioQuery();
   @override
   Widget build(BuildContext context) {
@@ -129,45 +131,50 @@ class _SongListPageState extends State<SongListPage> {
                           ),
                           trailing: Padding(
                             padding: const EdgeInsets.only(right: 10),
-                            child: Wrap(
-                              children: [
-                                !widget.playlist.isValueIn(item.data![index].id)
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            songAddToPlaylist(
-                                               item.data![index]);
-                                            PlaylistDb.playlistNotifier
-                                             .notifyListeners();
-                                          });
-                                        },
-                                        icon: const Icon(Icons.add,color: Colors.white,),
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            widget.playlist.deleteData(
-                                                item.data![index].id);
-                                          });
-                                          const snackBar = SnackBar(
-                                            backgroundColor: Colors.black,
-                                            content: Text(
-                                              'Song deleted from playlist',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 450),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        },
-                                        icon: const Padding(
-                                          padding: EdgeInsets.only(bottom: 25),
-                                          child: Icon(Icons.minimize,color: Colors.white,),
-                                     ),
-                                 ),
-                              ],
+                            child: Consumer<PlaylistProvider>(
+                              builder: (context, value, child) {
+                               return Wrap(
+                                children: [
+                                  !widget.playlist.isValueIn(item.data![index].id)
+                                      ? IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              songAddToPlaylist(
+                                                 item.data![index]);
+                                              PlaylistDb.playlistNotifier
+                                               .notifyListeners();
+                                             });
+                                          },
+                                          icon: const Icon(Icons.add,color: Colors.white,),
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              widget.playlist.deleteData(
+                                                  item.data![index].id);
+                                            });
+                                            const snackBar = SnackBar(
+                                              backgroundColor: Colors.black,
+                                              content: Text(
+                                                'Song deleted from playlist',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 450),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          },
+                                          icon: const Padding(
+                                            padding: EdgeInsets.only(bottom: 25),
+                                            child: Icon(Icons.minimize,color: Colors.white,),
+                                       ),
+                                   ),
+                                ],
+                              );
+                              },
+                             
                             ),
                           ),
                         );

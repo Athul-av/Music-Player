@@ -108,10 +108,10 @@ class _PlaylistScreenFromallsongState extends State<PlaylistScreenFromallsong> {
                         itemBuilder: (context, index) {
                         final datas = musicList.values.toList()[index]; 
 
-                         return GestureDetector(
+                         return GestureDetector( 
                           onTap: (){
                               songAddToPlaylist(
-                              startSong[widget.findex],datas);   
+                          startSong[widget.findex],datas);   
                               PlaylistDb.playlistNotifier
                               .notifyListeners();                                
                            Navigator.of(context).pop(); 
@@ -181,7 +181,7 @@ class _PlaylistScreenFromallsongState extends State<PlaylistScreenFromallsong> {
        const SizedBox( height: 8,),
         SimpleDialogOption(
           child: Form(
-            key:_formKey, 
+            key:_formKey,  
             child: TextFormField(
                controller: nameController,  
               decoration: InputDecoration(
@@ -214,7 +214,7 @@ class _PlaylistScreenFromallsongState extends State<PlaylistScreenFromallsong> {
             SimpleDialogOption(
               onPressed: () {
                 Navigator.of(context).pop();
-                playlistController.clear();
+                nameController.clear();
               },
               child: const Text( 'Cancel',
                  style: TextStyle(

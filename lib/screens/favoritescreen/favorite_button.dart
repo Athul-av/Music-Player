@@ -3,25 +3,20 @@ import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class FavoriteButton extends StatefulWidget {
+class FavoriteButton extends StatelessWidget {
   const FavoriteButton({super.key, required this.songFavorite});
   final SongModel songFavorite;
 
   @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-} 
- 
-class _FavoriteButtonState extends State<FavoriteButton> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return ValueListenableBuilder(
         valueListenable: FavoriteDb.favoriteSongs,
         builder:
             (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
           return TextButton(
             onPressed: () {
-              if (FavoriteDb.isFavor(widget.songFavorite)) {
-                FavoriteDb.delete(widget.songFavorite.id);
+              if (FavoriteDb.isFavor(songFavorite)) {
+                FavoriteDb.delete(songFavorite.id);
                 const snackBar = SnackBar(
                   backgroundColor: Colors.black,  
                   content: Text( 
@@ -32,7 +27,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
-                FavoriteDb.add(widget.songFavorite);
+                FavoriteDb.add(songFavorite);
                 const snackbar = SnackBar(
                   backgroundColor: Colors.black,
                   content: Text(
@@ -47,7 +42,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
               FavoriteDb.favoriteSongs.notifyListeners();
               Navigator.of(context).pop(); 
             },
-            child: FavoriteDb.isFavor(widget.songFavorite)
+            child: FavoriteDb.isFavor(songFavorite)
                 ?const Text(  'Remove from Favorites',  
                 style: TextStyle(
                                  fontFamily: 'UbuntuCondensed',

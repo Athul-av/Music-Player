@@ -43,8 +43,6 @@ class PlaylistDb {
     await playListDb.clear();
     await recentDb.clear();
     await mostdb.clear(); 
-    
-    
 
     FavoriteDb.favoriteSongs.value.clear();
     Navigator.of(context).pushAndRemoveUntil(
