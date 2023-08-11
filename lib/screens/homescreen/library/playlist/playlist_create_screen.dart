@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
-import 'package:music_app/screens/homescreen/allsongs/allsongs.dart';
 import 'package:music_app/screens/homescreen/library/playlist/playlist_listview.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistScreen extends StatelessWidget {
    PlaylistScreen({
@@ -52,7 +50,7 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                 nameController.clear(); 
               newplaylist(context,_formKey); 
               },
-              backgroundColor:Color.fromARGB(255, 13, 135, 142),
+              backgroundColor:const Color.fromARGB(255, 13, 135, 142),
               child:const Icon( 
             Icons.playlist_add,color: Color.fromARGB(255, 255, 255, 255), 
           ),
@@ -65,14 +63,14 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                   children: [
                     const SizedBox(height: 20),
                     Hive.box<MuzicModel>('playlistDb').isEmpty
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
+                        ?const  Padding(
+                            padding:  EdgeInsets.symmetric(
                                 vertical: 100, horizontal: 50),
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(80.0),
+                                padding:  EdgeInsets.all(80.0),
                                 child: Column(
-                                  children: const [      
+                                  children:  [      
                                      Text(
                                       'No Playlist',  
                                       style: TextStyle(

@@ -3,7 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/homescreen/library/playlist/moreplaylist.dart';
 import 'package:music_app/screens/homescreen/library/playlist/playlist_added_song_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 class PlaylistListListView extends StatefulWidget {

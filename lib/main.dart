@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_app/controller/bottomNav_controller.dart';
-import 'package:music_app/db/functions/recent_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/providers/NowPlayingProvdr.dart';
 import 'package:music_app/providers/allSongsProvider.dart';

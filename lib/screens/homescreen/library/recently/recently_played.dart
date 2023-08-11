@@ -58,11 +58,11 @@ class RecentlyPlayed extends StatelessWidget {
                           builder: (BuildContext context, List<SongModel> value,
                               Widget? child) {
                             if (value.isEmpty) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 200),
+                              return const  Padding(
+                                padding:  EdgeInsets.only(top: 200),
                                 child: Center(
                                   child: Column(
-                                    children:const [
+                                    children: [
                                      Text(
                                         'No Song In Recents',
                                          style: TextStyle(
@@ -106,7 +106,7 @@ class RecentlyPlayed extends StatelessWidget {
                                     shrinkWrap: true,
                                     itemBuilder: (BuildContext context, int index) {
                                       return ListTile(
-                                         tileColor: Color.fromARGB(255, 12, 12, 12), 
+                                         tileColor:const Color.fromARGB(255, 12, 12, 12), 
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
                                         ),

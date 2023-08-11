@@ -20,7 +20,7 @@ class MiniPlayer extends StatelessWidget {
     return Consumer<MiniPlayerProvdr>(
       builder: (context, value, child) {
         return ListTile(
-        tileColor: Color.fromARGB(255, 15, 159, 167),
+        tileColor:const Color.fromARGB(255, 15, 159, 167),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(

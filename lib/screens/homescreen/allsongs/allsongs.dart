@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
            body: NestedScrollView(
           headerSliverBuilder: ((context, innerBoxIsScrolled) => [
                 SliverAppBar(
-                  backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                  backgroundColor:const  Color.fromARGB(255, 0, 0, 0),
                   elevation: 0, 
                   expandedHeight: MediaQuery.of(context).size.height * 0.2,
                   
@@ -105,14 +105,16 @@ class HomeScreen extends StatelessWidget {
                           return  const Padding(
                             padding:
                            EdgeInsets.symmetric(vertical: 200, horizontal: 100),
-                            child: Text(
-                              'No Songs Available',
-                              style: TextStyle(
-                      fontFamily: 'UbuntuCondensed',
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 19, 
-                      
-                     ),
+                            child: Center(
+                              child: Text(
+                                'No Songs Available',
+                                style: TextStyle(
+                                                  fontFamily: 'UbuntuCondensed',
+                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                  fontSize: 19, 
+                                                  
+                                                 ),
+                              ),
                             ),
                           );
                         }
@@ -134,7 +136,7 @@ class HomeScreen extends StatelessWidget {
                               builder: (BuildContext context, List<SongModel> value,
                                   Widget? child) { 
                                 return ListTile(
-                                  tileColor: Color.fromARGB(255, 12, 12, 12),  
+                                  tileColor:const Color.fromARGB(255, 12, 12, 12),  
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),

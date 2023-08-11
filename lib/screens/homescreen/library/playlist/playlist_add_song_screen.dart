@@ -3,7 +3,6 @@ import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/providers/playlistProvider/playlistAddprovdr.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SongListPage extends StatefulWidget {
@@ -90,7 +89,7 @@ class _SongListPageState extends State<SongListPage> {
                       shrinkWrap: true,
                       itemBuilder: (context,index) {
                         return ListTile(
-                           tileColor: Color.fromARGB(255, 12, 12, 12), 
+                           tileColor:const  Color.fromARGB(255, 12, 12, 12), 
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -207,6 +206,5 @@ class _SongListPageState extends State<SongListPage> {
             style: TextStyle(color: Colors.white),
           ));
       ScaffoldMessenger.of(context).showSnackBar(snackbar1);
-   
   }
 }

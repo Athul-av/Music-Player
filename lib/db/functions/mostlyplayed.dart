@@ -22,13 +22,7 @@ class GetMostlyPlayed {
     final MostlyPlayedSongItems = mostplayedDb.values.toList();
     mostlyPlayedNotifier.value.clear();
     int count=0; 
-    // for (int i = 0; i < MostlyPlayedSongItems.length;i++) {
-    //   for (int j = 0; j < startSong.length; j++) {
-    //     if (MostlyPlayedSongItems[i] == startSong[j].id) {
-    //       mostlyPlayedNotifier.value.add(startSong[j]); 
-    //     }
-    //   }
-    // }
+    
    for(int i= 0;i< MostlyPlayedSongItems.length ; i++){
     for(int j=0;j< MostlyPlayedSongItems.length ; j++){
       if(MostlyPlayedSongItems[i]==MostlyPlayedSongItems[j]){

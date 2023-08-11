@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/db/functions/recent_db.dart';
@@ -73,7 +72,7 @@ class FavoriteScreen extends StatelessWidget {
                           itemCount: favoriteData.length,
                           itemBuilder: (ctx, index) {
                             return ListTile(
-                               tileColor: Color.fromARGB(255, 12, 12, 12), 
+                               tileColor:const Color.fromARGB(255, 12, 12, 12), 
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

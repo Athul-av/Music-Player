@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AboutUsDrawer extends StatelessWidget {
   const AboutUsDrawer({super.key});
@@ -18,10 +17,10 @@ class AboutUsDrawer extends StatelessWidget {
         ],
       ),
         ),
-        child: Padding(
-      padding: const EdgeInsets.all(80.0),
+        child:const Padding(
+      padding:  EdgeInsets.all(80.0),
       child: Column(
-        children: const [
+        children:  [
          
           Text(
             """

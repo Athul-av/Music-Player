@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FavoriteButton extends StatelessWidget {
   const FavoriteButton({super.key, required this.songFavorite});

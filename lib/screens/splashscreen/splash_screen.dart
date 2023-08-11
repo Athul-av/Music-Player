@@ -14,12 +14,10 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Image.asset(
-                "assets/images/loogoo.png",
-                height: 350,
-                width: 250,
-              ),
+            Image.asset(
+              "assets/images/loogoo.png",
+              height: 350,
+              width: 250,
             ),
             const Text(
               'PAATTU', 

@@ -5,7 +5,6 @@ import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:music_app/screens/homescreen/library/playlist/playlist_add_song_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 class ListOfPlayList extends StatelessWidget {
@@ -85,7 +84,7 @@ class ListOfPlayList extends StatelessWidget {
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return ListTile(
-                                   tileColor: Color.fromARGB(255, 12, 12, 12), 
+                                   tileColor: const Color.fromARGB(255, 12, 12, 12), 
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),

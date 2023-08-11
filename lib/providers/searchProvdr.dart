@@ -1,12 +1,9 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:music_app/screens/homescreen/allsongs/searchscreen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SearchProvider with ChangeNotifier{
 late List<SongModel> allSong;
  List<SongModel> foundSongs = [];
- final audioPlayer = AudioPlayer();
 final audiQuery = OnAudioQuery();
  
   void songsLoading() async {

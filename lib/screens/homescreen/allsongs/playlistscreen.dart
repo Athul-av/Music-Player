@@ -3,7 +3,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/homescreen/allsongs/allsongs.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistScreenFromallsong extends StatefulWidget {
@@ -66,7 +65,7 @@ class _PlaylistScreenFromallsongState extends State<PlaylistScreenFromallsong> {
                 nameController.clear(); 
               newplaylist(context,_formKey); 
               },
-            backgroundColor: Color.fromARGB(255, 15, 159, 167), 
+            backgroundColor:const  Color.fromARGB(255, 15, 159, 167), 
             child:const Icon(
             Icons.playlist_add,color: Color.fromARGB(255, 255, 255, 255),
             ), 
@@ -79,14 +78,14 @@ class _PlaylistScreenFromallsongState extends State<PlaylistScreenFromallsong> {
                   children: [
                     const SizedBox(height: 20),
                     Hive.box<MuzicModel>('playlistDb').isEmpty
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
+                        ?const  Padding(
+                            padding:  EdgeInsets.symmetric(
                                 vertical: 100, horizontal: 50),
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(80.0),
+                                padding:  EdgeInsets.all(80.0),
                                 child: Column(
-                                  children: const [      
+                                  children:  [      
                                      Text(
                                       'No Playlist',  
                                        style: TextStyle(
@@ -122,7 +121,7 @@ class _PlaylistScreenFromallsongState extends State<PlaylistScreenFromallsong> {
                               borderRadius: BorderRadius.circular(20)),
                               child: Column(
                                 children: [
-                                  Expanded(
+                                 const Expanded(
                                     flex: 4,
                                     child:Icon(Icons.folder,color:Color.fromARGB(255, 15, 159, 167),size: 145,)   
                                   ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/screens/homescreen/allsongs/drawer/drawerAboutUs.dart';
 import 'package:music_app/screens/homescreen/allsongs/drawer/drawerPrivacy.dart';
 import 'package:music_app/screens/homescreen/allsongs/drawer/shareApp.dart';
-import 'package:music_app/screens/miniplayer/mini_player.dart'; 
 
 
 class HomescreenDrawers extends StatelessWidget {
@@ -14,10 +12,10 @@ class HomescreenDrawers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(255, 14, 14, 14), 
+      color:const Color.fromARGB(255, 14, 14, 14), 
       child: SafeArea(
           child: Column(children: [
-            Container(
+            SizedBox(
               height: 200,
               width: 230,  
               child: Image.asset('assets/images/loogoo.png')),  
@@ -27,9 +25,9 @@ class HomescreenDrawers extends StatelessWidget {
                  padding: const EdgeInsets.fromLTRB(18.0,18,18,8),
                 child: Row(
                   children: [
-                    Icon(Icons.person,color:  Color.fromARGB(255, 15, 159, 167),), 
+                   const Icon(Icons.person,color:  Color.fromARGB(255, 15, 159, 167),), 
                     TextButton(onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AboutUsDrawer())); 
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AboutUsDrawer())); 
                     },
                        child:const Text( 'About Us ',
                          style: TextStyle(
@@ -47,9 +45,9 @@ class HomescreenDrawers extends StatelessWidget {
                  padding: const EdgeInsets.fromLTRB(18.0,18,18,8),
                 child: Row(
                   children: [ 
-                    Icon(Icons.lock_person_rounded,color:  Color.fromARGB(255, 15, 159, 167),), 
+                   const Icon(Icons.lock_person_rounded,color:  Color.fromARGB(255, 15, 159, 167),), 
                     TextButton(onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PrivacyDrawer()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PrivacyDrawer()));
                     },
                        child:const Text( 'Privacy & Policy',
                          style: TextStyle(
@@ -67,7 +65,7 @@ class HomescreenDrawers extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(18.0,18,18,8),
                 child: Row(
                   children: [ 
-                    Icon(Icons.share,color:  Color.fromARGB(255, 15, 159, 167),), 
+                   const Icon(Icons.share,color:  Color.fromARGB(255, 15, 159, 167),), 
                     TextButton(onPressed: (){
                           ShareAppFile(context); 
                     },
@@ -87,7 +85,7 @@ class HomescreenDrawers extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(18.0,18,18,8),
                 child: Row(
                   children: [ 
-                    Icon(Icons.replay,color:  Color.fromARGB(255, 15, 159, 167),), 
+                   const Icon(Icons.replay,color:  Color.fromARGB(255, 15, 159, 167),), 
                     TextButton(onPressed: (){
                             showDialog(
                     context: context,

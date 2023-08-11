@@ -6,7 +6,6 @@ class NowPlayingProvider with ChangeNotifier{
 Duration duration = const Duration();
   Duration position = const Duration();
 
-  bool _isShuffle = false; 
   int currentIndex = 0;
   int counter = 0;
 

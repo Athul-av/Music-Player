@@ -1,4 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
@@ -8,7 +7,6 @@ import 'package:music_app/db/functions/recent_db.dart';
 import 'package:music_app/providers/NowPlayingProvdr.dart';
 import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
 import 'package:music_app/screens/homescreen/allsongs/playlistscreen.dart';
-import 'package:music_app/screens/miniplayer/mini_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
@@ -190,7 +188,7 @@ class MusicPlayingScreen extends StatelessWidget {
                             Expanded(
                               child: SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
-                                  activeTrackColor: Color.fromARGB(255, 15, 159, 167),
+                                  activeTrackColor:const Color.fromARGB(255, 15, 159, 167),
                                   thumbShape:const RoundSliderThumbShape( enabledThumbRadius: 8.0),
                                   overlayShape:const RoundSliderOverlayShape(overlayRadius: 2.0),           
                                   trackHeight:3
@@ -252,13 +250,13 @@ class MusicPlayingScreen extends StatelessWidget {
                               if(GetAllSongController.audioPlayer.position.inSeconds>10){ 
                            GetAllSongController.audioPlayer.seek(Duration(seconds:GetAllSongController.audioPlayer.position.inSeconds -10));   
                               } else{
-                               GetAllSongController.audioPlayer .seek(Duration(seconds: 0)); 
+                               GetAllSongController.audioPlayer .seek(const Duration(seconds: 0)); 
                               }   
                             }, 
                             icon:const Icon(Icons.replay_10,color: Colors.white,)),  
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color.fromARGB(255, 0, 0, 0), 
+                                  backgroundColor:const  Color.fromARGB(255, 0, 0, 0), 
                                   shape: const CircleBorder()),
                               onPressed: () async {
                                 if (GetAllSongController.audioPlayer.playing) {

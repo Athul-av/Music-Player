@@ -28,7 +28,7 @@ class PrivacyDrawer extends StatelessWidget {
               style: GoogleFonts.ubuntuCondensed(
                   textStyle: const TextStyle(
                       fontSize: 30, fontWeight: FontWeight.bold),
-                      color:  Color.fromARGB(255, 15, 159, 167)),
+                      color:const  Color.fromARGB(255, 15, 159, 167)),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.07,

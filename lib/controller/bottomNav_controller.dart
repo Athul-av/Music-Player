@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 
 class BottomNavController extends ChangeNotifier {
   int _currentIndex = 2;
